@@ -5,13 +5,15 @@ package cn.bdconsulting.www.view
 	import cn.bdconsulting.www.core.BdcLabel;
 	import cn.bdconsulting.www.event.ChangePageEvent;
 	
+	import com.qq.openapi.MttService;
+	
 	import flash.events.MouseEvent;
 	
 	public class ScoreListPage extends BdcContainer
 	{
 		private var _scoreCount : int = 10;
 		
-		private var _dataProvider : Array = new Array();
+		private var _dataProvider : Vector.<int> = new Vector.<int>;
 		
 		private var _scoreListView : Array = new Array();
 		
@@ -25,7 +27,7 @@ package cn.bdconsulting.www.view
 				_textField.text = "第" + (i+1) + "名";
 				_textField.x = 40;
 				_textField.y = textFieldY ;
-				textFieldY = _textField.y + _textField.height + 10;
+				textFieldY = _textField.y + _textField.height + 7;
 				_scoreListView.push(_textField);
 				this.addChild(_textField);
 			}
@@ -36,11 +38,13 @@ package cn.bdconsulting.www.view
 			backMainBtn.height = 30;
 			backMainBtn.x = 5;
 			backMainBtn.y = 300;
+			backMainBtn.label = "";
+			backMainBtn.backgroundImage = MttService.getSubResource("resourceURL") + "/returnBtn.png";
 			backMainBtn.addEventListener(MouseEvent.CLICK,toMainPage);
 			addChild(backMainBtn);
 		}
 		
-		public function set dataProvider(_arr : Array) : void
+		public function set dataProvider(_arr : Vector.<int>) : void
 		{
 			_dataProvider = _arr;
 			updateData();

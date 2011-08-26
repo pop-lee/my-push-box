@@ -14,6 +14,8 @@ package cn.bdconsulting.www.event
 		
 		public static const TO_SCORELIST_PAGE : int = 3;
 		
+		public static const EXIT : int = 4;
+		
 		public var data : int;
 		
 		public function ChangePageEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
