@@ -1,11 +1,11 @@
 package cn.bdconsulting.www.view
 {
-	import cn.bdconsulting.www.core.BdcButton;
-	import cn.bdconsulting.www.core.BdcContainer;
-	import cn.bdconsulting.www.core.BdcScoreList;
-	import cn.bdconsulting.www.core.BdcSprite;
-	import cn.bdconsulting.www.core.BdcTextField;
-	import cn.bdconsulting.www.core.BdcViewStack;
+	import cn.bdconsulting.www.event.BdcButton;
+	import cn.bdconsulting.www.event.BdcContainer;
+	import cn.bdconsulting.www.event.BdcScoreList;
+	import cn.bdconsulting.www.event.BdcSprite;
+	import cn.bdconsulting.www.event.BdcTextField;
+	import cn.bdconsulting.www.event.BdcViewStack;
 	import cn.bdconsulting.www.event.ChangePageEvent;
 	import cn.bdconsulting.www.event.DirectionBtnEvent;
 	import cn.bdconsulting.www.event.OpenLevelEvent;
@@ -40,6 +40,8 @@ package cn.bdconsulting.www.view
 		private var _restartBtn : TouchBtn = new TouchBtn();
 		
 		private var _levelList : LevelList;
+		
+		private var successPage : SuccessPage;
 		
 		public function GamePage()
 		{
@@ -133,76 +135,80 @@ package cn.bdconsulting.www.view
 //			_scoreBar.y = 5;
 //			addChild(_scoreBar);
 			
+			var directionBtn : BdcSprite = new BdcSprite();
+			directionBtn.backgroundImage = MttService.getSubResource("resourceURL") + "/direction.png";
+			_gamePanel.addChild(directionBtn);
+			
 			var topBtn : DirectionBtn = new DirectionBtn();
-			topBtn.width = 36;
-			topBtn.height = 36;
-			topBtn.x = 36;
+			topBtn.width = 26;
+			topBtn.height = 26;
+			topBtn.x = 27;
 			topBtn.y = 0;
 			topBtn.label = "";
-			topBtn.backgroundImage = MttService.getSubResource("resourceURL") + "/up.png";
+			topBtn.backgroundAlpha = 0;
 			topBtn.direction = DirectionBtnEvent.TOP;
 			topBtn.addEventListener(MouseEvent.MOUSE_DOWN,directionHandle);
 			_gamePanel.addChild(topBtn);
 			var bottomBtn : DirectionBtn = new DirectionBtn();
-			bottomBtn.width = 36;
-			bottomBtn.height = 36;
-			bottomBtn.x = 36;
-			bottomBtn.y = 72;
+			bottomBtn.width = 26;
+			bottomBtn.height = 26;
+			bottomBtn.x = 27;
+			bottomBtn.y = 50;
 			bottomBtn.label = "";
-			bottomBtn.backgroundImage = MttService.getSubResource("resourceURL") + "/down.png";
+			bottomBtn.backgroundAlpha = 0;
 			bottomBtn.direction = DirectionBtnEvent.BOTTOM;
 			bottomBtn.addEventListener(MouseEvent.MOUSE_DOWN,directionHandle);
 			_gamePanel.addChild(bottomBtn);
 			var leftBtn : DirectionBtn = new DirectionBtn();
-			leftBtn.width = 36;
-			leftBtn.height = 36;
+			leftBtn.width = 26;
+			leftBtn.height = 26;
 			leftBtn.x = 0;
-			leftBtn.y = 36;
+			leftBtn.y = 26;
 			leftBtn.label = "";
-			leftBtn.backgroundImage = MttService.getSubResource("resourceURL") + "/left.png";
+			leftBtn.backgroundAlpha = 0;
 			leftBtn.direction = DirectionBtnEvent.LEFT;
 			leftBtn.addEventListener(MouseEvent.MOUSE_DOWN,directionHandle);
 			_gamePanel.addChild(leftBtn);
 			var rightBtn : DirectionBtn = new DirectionBtn();
-			rightBtn.width = 36;
-			rightBtn.height = 36;
-			rightBtn.y = 36;
-			rightBtn.x = 72;
+			rightBtn.width = 26;
+			rightBtn.height = 26;
+			rightBtn.y = 26;
+			rightBtn.x = 54;
 			rightBtn.label = "";
-			rightBtn.backgroundImage = MttService.getSubResource("resourceURL") + "/right.png";
+			rightBtn.backgroundAlpha = 0;
 			rightBtn.direction = DirectionBtnEvent.RIGHT;
 			rightBtn.addEventListener(MouseEvent.MOUSE_DOWN,directionHandle);
 			_gamePanel.addChild(rightBtn);
 			
 			////////////////////////////////////////////////////////////////
 			
-			var successPage : SuccessPage = new SuccessPage();
+			successPage = new SuccessPage();
 			successPage.percentWidth = 100;
 			successPage.percentHeight = 100;
 			this.addItem(successPage);
 			
 			var _backMainBtn3 : BdcButton = new BdcButton();
-			_backMainBtn3.width = 90;
-			_backMainBtn3.height = 30;
-			_backMainBtn3.x = 15;
-			_backMainBtn3.y = 300;
-//			_backMainBtn3.backgroundAlpha = 0;
+			_backMainBtn3.width = 49;
+			_backMainBtn3.height = 24;
+			_backMainBtn3.x = 23;
+			_backMainBtn3.y = 293;
+			_backMainBtn3.backgroundAlpha = 0;
 			_backMainBtn3.label = "";
 			_backMainBtn3.addEventListener(MouseEvent.CLICK,toLevelListPage);
 			var _restartBtn2 : BdcButton = new BdcButton();
-			_restartBtn2.width = 90;
-			_restartBtn2.height = 30;
-			_restartBtn2.x = 145;
-			_restartBtn2.y = 260;
-//			_restartBtn2.backgroundAlpha = 0;
+			_restartBtn2.width = 97;
+			_restartBtn2.height = 35;
+			_restartBtn2.x = 113;
+			_restartBtn2.y = 240;
+			_restartBtn2.backgroundAlpha = 0;
 			_restartBtn2.label = "";
 			_restartBtn2.addEventListener(MouseEvent.CLICK,restartPlay);
 			var _nextLvBtn : BdcButton = new BdcButton();
-			_nextLvBtn.width = 90;
-			_nextLvBtn.height = 30;
-			_nextLvBtn.x = 145;
-			_nextLvBtn.y = 300;
-//			_nextLvBtn.backgroundAlpha = 0;
+			_nextLvBtn.width = 97;
+			_nextLvBtn.height = 35;
+			_nextLvBtn.x = 113;
+			_nextLvBtn.y = 283;
+			_nextLvBtn.backgroundAlpha = 0;
 			_nextLvBtn.label = "";
 			_nextLvBtn.addEventListener(MouseEvent.CLICK,nextLv);
 			successPage.addChild(_backMainBtn3);
@@ -251,14 +257,16 @@ package cn.bdconsulting.www.view
 		
 		private function successHandle(event : SuccessEvent) : void
 		{
-			if(_model.scoreArr[_model.currentLv] < 200 - _map.time) {
-				_model.scoreArr[_model.currentLv] = 200 - _map.time;
+			var lvScore : int = 200 - _map.time;
+			if(_model.scoreArr[_model.currentLv] < lvScore) {
+				_model.scoreArr[_model.currentLv] = lvScore;
 				ModelLocator.saveLv();
 			}
 			if(_model.unLockedLv < _model.currentLv+1) {
 				_model.unLockedLv++;
 			}
 			_model.stage.dispatchEvent(new OpenLevelEvent(OpenLevelEvent.OPEN_LEVEL_EVENT));
+			successPage.setData(_map.time,_map.step,lvScore);
 			this.selectedIndex = 2;
 		}
 		
