@@ -1,8 +1,10 @@
 package cn.bdconsulting.www.view
 {
-	import cn.bdconsulting.www.core.BdcButton;
-	import cn.bdconsulting.www.core.BdcContainer;
+	import cn.bdconsulting.www.event.BdcButton;
+	import cn.bdconsulting.www.event.BdcContainer;
+	import cn.bdconsulting.www.core.BdcLogEvent;
 	import cn.bdconsulting.www.event.ChangePageEvent;
+	import cn.bdconsulting.www.model.ModelLocator;
 	
 	import com.qq.openapi.MttService;
 	
@@ -21,7 +23,7 @@ package cn.bdconsulting.www.view
 		
 		private function init() : void
 		{
-			this.backgroundImage = MttService.getSubResource("resourceURL") + "/main.png";
+			this.backgroundImage = "resource/main.png";//MttService.getSubResource("resourceURL") + "/main.png";
 			
 			var startGameBtn : BdcButton = new BdcButton();
 			startGameBtn.width = 120;
@@ -88,7 +90,7 @@ package cn.bdconsulting.www.view
 		
 		private function exitGame(event : MouseEvent) : void
 		{
-			
+			MttService.exit();
 		}
 	}
 }

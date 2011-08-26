@@ -1,7 +1,7 @@
 ﻿package cn.bdconsulting.www.view  
 {
-	import cn.bdconsulting.www.core.BdcContainer;
-	import cn.bdconsulting.www.core.BdcSprite;
+	import cn.bdconsulting.www.event.BdcContainer;
+	import cn.bdconsulting.www.event.BdcSprite;
 	import cn.bdconsulting.www.event.SuccessEvent;
 	import cn.bdconsulting.www.model.ModelLocator;
 	

@@ -1,8 +1,8 @@
 package cn.bdconsulting.www.view
 {
-	import cn.bdconsulting.www.core.BdcButton;
-	import cn.bdconsulting.www.core.BdcContainer;
-	import cn.bdconsulting.www.core.BdcLabel;
+	import cn.bdconsulting.www.event.BdcButton;
+	import cn.bdconsulting.www.event.BdcContainer;
+	import cn.bdconsulting.www.event.BdcLabel;
 	import cn.bdconsulting.www.event.ChangePageEvent;
 	
 	import com.qq.openapi.MttService;

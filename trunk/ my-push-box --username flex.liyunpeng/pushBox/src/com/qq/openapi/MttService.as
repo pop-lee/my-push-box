@@ -504,6 +504,11 @@ package com.qq.openapi
         //判断当前是否本机调试 
         public static function isLocal():Boolean
         {
+            if (qqbrowser)
+            {
+                return false;
+            }
+
             return flash.system.Security.sandboxType == flash.system.Security.LOCAL_WITH_FILE || flash.system.Security.sandboxType == flash.system.Security.LOCAL_TRUSTED;
         }
 

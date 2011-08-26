@@ -1,5 +1,6 @@
 package cn.bdconsulting.www.model
 {
+	import cn.bdconsulting.www.event.BdcTextField;
 	import cn.bdconsulting.www.event.OpenLevelEvent;
 	
 	import com.qq.openapi.MttGameData;
@@ -44,7 +45,7 @@ package cn.bdconsulting.www.model
 		public static function getUnLockLevel(result:Object) : void
 		{
 			if(result.code == 0) {
-				_model.unLockedLv = result.value.readUTF();
+				_model.unLockedLv = result.value.readObject();
 				_model.stage.dispatchEvent(new OpenLevelEvent(OpenLevelEvent.OPEN_LEVEL_EVENT));
 			}
 		}
