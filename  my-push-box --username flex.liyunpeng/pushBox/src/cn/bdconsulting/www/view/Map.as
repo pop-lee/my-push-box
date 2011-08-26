@@ -9,9 +9,11 @@
 	import flash.display.Loader;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.TimerEvent;
 	import flash.net.URLRequest;
 	import flash.system.System;
 	import flash.text.TextField;
+	import flash.utils.Timer;
 	
 	/**
 	 * ...
@@ -24,10 +26,20 @@
 		private var _lv:uint;//关卡
 		private var _mapData:Array = [];//map数据
 		
+		private var _step : int = 0;
+		private var _time : int = 0;
+		
+		private var _role : Role;
+		
+		private var _timer : Timer = new Timer(1000);
+		
 		public function Map(lv:uint=0)
 		{
 			super();
 			_lv = lv;
+			_timer.addEventListener(TimerEvent.TIMER,timerHandle);
+			_role = new Role(this);
+			this.addChild(_role);
 //			initMapData();
 		}
 		private function initMapData() : void {
@@ -69,18 +81,20 @@
 				removeChildAt(0);
 			}
 		}
-		private function checkSuccess():void {
+		public function checkSuccess():void {
 			if(isSuccess()){
 				trace("Success");
+				_timer.stop();
+				_role.removeEvent();
 				this.dispatchEvent(new SuccessEvent(SuccessEvent.SUCCESS_EVENT));
 			}
 		}
 		private function isSuccess():Boolean {
 			var success:Boolean = true;
-			for (var i:int = 0; i < MapData.MAP[_model.lv].length; i++) {
-				for (var j:int = 0; j < MapData.MAP[_model.lv][i].length; j++) {
+			for (var i:int = 0; i < MapData.MAP[_model.currentLv].length; i++) {
+				for (var j:int = 0; j < MapData.MAP[_model.currentLv][i].length; j++) {
 					//4是目标点
-					if (MapData.MAP[_model.lv][i][j] == MapData.TARGET || MapData.MAP[_model.lv][i][j] == MapData.SPECIAL) {
+					if (MapData.MAP[_model.currentLv][i][j] == MapData.TARGET || MapData.MAP[_model.currentLv][i][j] == MapData.SPECIAL) {
 						if ((_mapData[i][j] == MapData.BOX || _mapData[i][j] == MapData.SPECIAL)) {
 							trace(i,j,_mapData[i][j]);
 						}
@@ -98,10 +112,15 @@
 			_mapData[py][px] = type;
 			//trace(py,px,_mapData[py][px]);
 			repaintMap();
-			checkSuccess();
+//			checkSuccess();
 		}
 		public function getMapData():Array {
 			return _mapData;
+		}
+		
+		private function timerHandle(event : TimerEvent) : void
+		{
+			_time++;
 		}
 		
 		public function set lv(lv:uint) : void {
@@ -112,11 +131,32 @@
 			this.y = (this.parent.height - MapData.MAP[_lv].length*Config.TILE_SIZE)/2;
 			initMapData();
 			repaintMap();
+			_step = 0;
+			_time = 0;
+			_timer.stop();
+			_timer.start();
+			_role.getPosition();
+			_role.addEvent();
 		}
 		
 		public function get lv() : uint
 		{
 			return _lv;
+		}
+		
+		public function set step(value : int) : void
+		{
+			_step = value;
+			trace(_step);
+		}
+		public function get step() : int 
+		{
+			return _step;
+		}
+		
+		public function get time() : int
+		{
+			return _time;
 		}
 		
 		override public function set parentWidth(value:Number):void
