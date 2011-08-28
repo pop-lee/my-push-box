@@ -1,7 +1,5 @@
 package cn.bdconsulting.www.view
 {
-	import cn.bdconsulting.www.event.BdcContainer;
-	import cn.bdconsulting.www.event.BdcLabel;
 	import cn.bdconsulting.www.model.ModelLocator;
 	import cn.bdconsulting.www.tools.NumberImage;
 	
@@ -28,7 +26,7 @@ package cn.bdconsulting.www.view
 		private var scoreBar : BdcLabel = new BdcLabel();
 		private function init() : void
 		{
-			this.backgroundImage = MttService.getSubResource("resourceURL") + "/successPage.png";
+			this.backgroundImage = ModelLocator.getImageResource("successPage.png");
 			
 			stepBar.textAlign = TextAlign.RIGHT;
 			stepBar.size = 20;
@@ -60,11 +58,11 @@ package cn.bdconsulting.www.view
 //			timeBar.text = time.toString();
 //			stepBar.text = step.toString();
 //			scoreBar.text = score.toString();
-			timeBar.backgroundBitmap = NumberImage.getNumberImage(time);
+			timeBar.backgroundImage = NumberImage.getNumberImage(time);
 			timeBar.x = 112 - NumberImage.getNumberImage(time).width;
-			stepBar.backgroundBitmap = NumberImage.getNumberImage(step);
+			stepBar.backgroundImage = NumberImage.getNumberImage(step);
 			stepBar.x = 112 - NumberImage.getNumberImage(step).width;
-			scoreBar.backgroundBitmap = NumberImage.getNumberImage(score);
+			scoreBar.backgroundImage = NumberImage.getNumberImage(score);
 			scoreBar.x = 112 - NumberImage.getNumberImage(score).width;
 		}
 	}

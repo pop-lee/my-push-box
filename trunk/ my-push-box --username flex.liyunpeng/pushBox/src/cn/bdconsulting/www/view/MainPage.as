@@ -1,7 +1,5 @@
 package cn.bdconsulting.www.view
 {
-	import cn.bdconsulting.www.event.BdcButton;
-	import cn.bdconsulting.www.event.BdcContainer;
 	import cn.bdconsulting.www.core.BdcLogEvent;
 	import cn.bdconsulting.www.event.ChangePageEvent;
 	import cn.bdconsulting.www.model.ModelLocator;
@@ -23,7 +21,7 @@ package cn.bdconsulting.www.view
 		
 		private function init() : void
 		{
-			this.backgroundImage = "resource/main.png";//MttService.getSubResource("resourceURL") + "/main.png";
+			this.backgroundImage = "resource/main.png";//ModelLocator.getImageResource("main.png");
 			
 			var startGameBtn : BdcButton = new BdcButton();
 			startGameBtn.width = 120;

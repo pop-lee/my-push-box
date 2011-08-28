@@ -1,6 +1,5 @@
-﻿package cn.bdconsulting.www.view  
+﻿package cn.bdconsulting.www.object  
 {
-	import cn.bdconsulting.www.event.BdcSprite;
 	import cn.bdconsulting.www.event.DirectionBtnEvent;
 	import cn.bdconsulting.www.model.ModelLocator;
 	
@@ -8,6 +7,11 @@
 	import flash.display.Stage;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
+	import cn.bdconsulting.www.view.BdcApplication;
+	import cn.bdconsulting.www.view.BdcSprite;
+	import cn.bdconsulting.www.view.Map;
+	import cn.bdconsulting.www.config.Config;
+	import cn.bdconsulting.www.config.MapData;
 	
 	/**
 	 * ...
@@ -33,8 +37,8 @@
 		public function addEvent() : void
 		{
 			this.addEventListener(Event.REMOVED,removedHandle);
-			_model.stage.addEventListener(KeyboardEvent.KEY_DOWN, moveRole);
-			_model.stage.addEventListener(DirectionBtnEvent.DIRECTION_EVENT,directionHandle);
+			BdcApplication.application.addEventListener(KeyboardEvent.KEY_DOWN, moveRole);
+			BdcApplication.application.addEventListener(DirectionBtnEvent.DIRECTION_EVENT,directionHandle);
 		}
 		
 		private function removedHandle(event : Event) : void
@@ -48,10 +52,10 @@
 				this.removeEventListener(Event.REMOVED,removedHandle);
 			}
 			if(stage.hasEventListener(KeyboardEvent.KEY_DOWN)) {
-				_model.stage.removeEventListener(KeyboardEvent.KEY_DOWN, moveRole);
+				BdcApplication.application.removeEventListener(KeyboardEvent.KEY_DOWN, moveRole);
 			}
 			if(stage.hasEventListener(DirectionBtnEvent.DIRECTION_EVENT)) {
-				_model.stage.removeEventListener(DirectionBtnEvent.DIRECTION_EVENT,directionHandle);
+				BdcApplication.application.removeEventListener(DirectionBtnEvent.DIRECTION_EVENT,directionHandle);
 			}
 		}
 		

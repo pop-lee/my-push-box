@@ -1,7 +1,6 @@
 package cn.bdconsulting.www.view
 {
-	import cn.bdconsulting.www.event.BdcButton;
-	import cn.bdconsulting.www.event.BdcSprite;
+	import cn.bdconsulting.www.model.ModelLocator;
 	import cn.bdconsulting.www.tools.NumberImage;
 	
 	import com.qq.openapi.MttService;
@@ -24,9 +23,9 @@ package cn.bdconsulting.www.view
 			super();
 			_lv = lv;
 			
-			this.backgroundImage = MttService.getSubResource("resourceURL") + "/lockLevel.png";
+			this.backgroundImage = ModelLocator.getImageResource("lockLevel.png");
 			
-			lvNum.backgroundBitmap = NumberImage.getNumberImage(_lv + 1);
+			lvNum.backgroundImage = NumberImage.getNumberImage(_lv + 1);
 			addChild(lvNum);
 		}
 		
@@ -42,18 +41,18 @@ package cn.bdconsulting.www.view
 		
 		public function openLvBtn() : void
 		{
-			this.backgroundImage = MttService.getSubResource("resourceURL") + "/unLockLevel.png";
+			this.backgroundImage = ModelLocator.getImageResource("unLockLevel.png");
 		}
 		
 		override public function set width(value:Number):void
 		{
 			super.width = value;
-			lvNum.x = (value - lvNum.backgroundBitmap.width)/2;
+			lvNum.x = (value - lvNum.backgroundImage.width)/2;
 		}
 		override public function set height(value:Number):void
 		{
 			super.height = value;
-			lvNum.y = (value - lvNum.backgroundBitmap.height)/2;
+			lvNum.y = (value - lvNum.backgroundImage.height)/2;
 		}
 	}
 }

@@ -1,10 +1,7 @@
 package cn.bdconsulting.www.view
 {
-	import cn.bdconsulting.www.event.BdcButton;
-	import cn.bdconsulting.www.event.BdcContainer;
-	import cn.bdconsulting.www.event.BdcLabel;
-	import cn.bdconsulting.www.event.BdcSprite;
 	import cn.bdconsulting.www.event.ChangePageEvent;
+	import cn.bdconsulting.www.model.ModelLocator;
 	
 	import com.qq.openapi.MttService;
 	
@@ -56,7 +53,7 @@ package cn.bdconsulting.www.view
 			backMainBtn.x = 5;
 			backMainBtn.y = 300;
 			backMainBtn.label = "";
-			backMainBtn.backgroundImage = MttService.getSubResource("resourceURL") + "/returnBtn.png";
+			backMainBtn.backgroundImage = ModelLocator.getImageResource("returnBtn.png");
 			backMainBtn.addEventListener(MouseEvent.CLICK,toMainPage);
 			addChild(backMainBtn);
 		}
