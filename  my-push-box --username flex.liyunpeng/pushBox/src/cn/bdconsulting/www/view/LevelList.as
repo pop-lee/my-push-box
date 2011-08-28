@@ -1,12 +1,11 @@
 package cn.bdconsulting.www.view
 {
-	import cn.bdconsulting.www.event.BdcButton;
-	import cn.bdconsulting.www.event.BdcContainer;
 	import cn.bdconsulting.www.event.OpenLevelEvent;
 	import cn.bdconsulting.www.event.PlayGameEvent;
 	import cn.bdconsulting.www.model.ModelLocator;
 	
 	import flash.events.MouseEvent;
+	import cn.bdconsulting.www.config.MapData;
 	
 	public class LevelList extends BdcContainer
 	{
@@ -22,7 +21,7 @@ package cn.bdconsulting.www.view
 		
 		private function init() : void
 		{
-			_model.stage.addEventListener(OpenLevelEvent.OPEN_LEVEL_EVENT,openLevelHandle);
+			BdcApplication.application.addEventListener(OpenLevelEvent.OPEN_LEVEL_EVENT,openLevelHandle);
 			
 			var _lvCount : int = MapData.MAP.length;
 			

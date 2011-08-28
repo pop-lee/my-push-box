@@ -1,18 +1,25 @@
 package cn.bdconsulting.www.model
 {
-	import cn.bdconsulting.www.event.BdcTextField;
 	import cn.bdconsulting.www.event.OpenLevelEvent;
+	import cn.bdconsulting.www.view.BdcApplication;
+	import cn.bdconsulting.www.view.BdcTextField;
 	
 	import com.qq.openapi.MttGameData;
 	import com.qq.openapi.MttScore;
 	
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
+	import flash.display.Loader;
 	import flash.display.Stage;
 	import flash.errors.IllegalOperationError;
 	import flash.utils.ByteArray;
+	import cn.bdconsulting.www.config.MapData;
 
 	public class ModelLocator
 	{
 		private static var _model : ModelLocator = new ModelLocator();
+		
+		public var resourceLoader : Loader = new Loader();
 		
 		public var stage : Stage;
 		
@@ -42,11 +49,17 @@ package cn.bdconsulting.www.model
 			MttScore.query(onFinishQuery);
 		}
 		
+		public static function getImageResource(symbol : String) : Bitmap
+		{
+			var img : Class = _model.resourceLoader.contentLoaderInfo.applicationDomain.getDefinition(symbol) as Class;
+			return new Bitmap(new img() as BitmapData);
+		}
+		
 		public static function getUnLockLevel(result:Object) : void
 		{
 			if(result.code == 0) {
 				_model.unLockedLv = result.value.readObject();
-				_model.stage.dispatchEvent(new OpenLevelEvent(OpenLevelEvent.OPEN_LEVEL_EVENT));
+				BdcApplication.application.dispatchEvent(new OpenLevelEvent(OpenLevelEvent.OPEN_LEVEL_EVENT));
 			}
 		}
 		

@@ -1,6 +1,5 @@
 package cn.bdconsulting.www.view
 {
-	import cn.bdconsulting.www.event.BdcButton;
 	
 	public class DirectionBtn extends BdcButton
 	{

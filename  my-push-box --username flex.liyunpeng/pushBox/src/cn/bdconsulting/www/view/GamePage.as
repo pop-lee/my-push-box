@@ -1,11 +1,5 @@
 package cn.bdconsulting.www.view
 {
-	import cn.bdconsulting.www.event.BdcButton;
-	import cn.bdconsulting.www.event.BdcContainer;
-	import cn.bdconsulting.www.event.BdcScoreList;
-	import cn.bdconsulting.www.event.BdcSprite;
-	import cn.bdconsulting.www.event.BdcTextField;
-	import cn.bdconsulting.www.event.BdcViewStack;
 	import cn.bdconsulting.www.event.ChangePageEvent;
 	import cn.bdconsulting.www.event.DirectionBtnEvent;
 	import cn.bdconsulting.www.event.OpenLevelEvent;
@@ -21,6 +15,7 @@ package cn.bdconsulting.www.view
 	import flash.events.MouseEvent;
 	import flash.net.URLRequest;
 	import flash.utils.ByteArray;
+	import cn.bdconsulting.www.object.Role;
 	
 	public class GamePage extends BdcViewStack
 	{
@@ -29,15 +24,6 @@ package cn.bdconsulting.www.view
 		private var _map:Map;
 		
 		private var _role:Role ;
-		
-		private var topBtn : DirectionButton = new DirectionButton(DirectionBtnEvent.TOP);
-		private var bottomBtn : DirectionButton = new DirectionButton(DirectionBtnEvent.BOTTOM);
-		private var leftBtn : DirectionButton = new DirectionButton(DirectionBtnEvent.LEFT);
-		private var rightBtn : DirectionButton = new DirectionButton(DirectionBtnEvent.RIGHT);
-		
-		private var _playBtn : PlayButton = new PlayButton();
-		
-		private var _restartBtn : TouchBtn = new TouchBtn();
 		
 		private var _levelList : LevelList;
 		
@@ -51,7 +37,7 @@ package cn.bdconsulting.www.view
 		
 		private function init() : void
 		{
-			this.backgroundImage = MttService.getSubResource("resourceURL") + "/levelBackground.png";
+			this.backgroundImage = ModelLocator.getImageResource("levelBackground.png");
 			initUI();
 		}
 		
@@ -74,21 +60,21 @@ package cn.bdconsulting.www.view
 			_backMainBtn1.x = 5;
 			_backMainBtn1.y = 300;
 			_backMainBtn1.label = "";
-			_backMainBtn1.backgroundImage = MttService.getSubResource("resourceURL") + "/returnBtn.png";
+			_backMainBtn1.backgroundImage = ModelLocator.getImageResource("returnBtn.png");
 //			_backMainBtn1.backgroundAlpha = 0;
 			_backMainBtn1.addEventListener(MouseEvent.CLICK,toMainPage);
 			
 			_levelListPanel.addChild(_levelList);
 			_levelListPanel.addChild(_backMainBtn1);
 			
-			_model.stage.dispatchEvent(new OpenLevelEvent(OpenLevelEvent.OPEN_LEVEL_EVENT));
+			BdcApplication.application.dispatchEvent(new OpenLevelEvent(OpenLevelEvent.OPEN_LEVEL_EVENT));
 			
 			
 			
 			var _gamePanel : BdcContainer = new BdcContainer();
 			_gamePanel.percentWidth = 100;
 			_gamePanel.percentHeight = 100;
-			_gamePanel.backgroundImage = MttService.getSubResource("resourceURL") + "/gameBackground.png";
+			_gamePanel.backgroundImage = ModelLocator.getImageResource("gameBackground.png");
 			this.addItem(_gamePanel);
 			
 			_map = new Map(_model.currentLv);
@@ -102,7 +88,7 @@ package cn.bdconsulting.www.view
 			_return2Btn.height = 51;
 			_return2Btn.x = 0;
 			_return2Btn.y = 295;
-			_return2Btn.backgroundImage = MttService.getSubResource("resourceURL") + "/return_restart.png";
+			_return2Btn.backgroundImage = ModelLocator.getImageResource("return_restart.png");
 			var _backMainBtn2 : BdcButton = new BdcButton();
 			_backMainBtn2.width = 90;
 			_backMainBtn2.height = 30;
@@ -136,7 +122,7 @@ package cn.bdconsulting.www.view
 //			addChild(_scoreBar);
 			
 			var directionBtn : BdcSprite = new BdcSprite();
-			directionBtn.backgroundImage = MttService.getSubResource("resourceURL") + "/direction.png";
+			directionBtn.backgroundImage = ModelLocator.getImageResource("direction.png");
 			_gamePanel.addChild(directionBtn);
 			
 			var topBtn : DirectionBtn = new DirectionBtn();
@@ -215,18 +201,11 @@ package cn.bdconsulting.www.view
 			successPage.addChild(_restartBtn2);
 			successPage.addChild(_nextLvBtn);
 			
-//			_playBtn.text = "开始"
-//			_playBtn.addEventListener(MouseEvent.CLICK,playBtnClickHandle);
-//			_playBtn.x = stage.stageWidth - _playBtn.width - 10;
-//			_playBtn.y = title.y - _playBtn.height - 2;
-//			addChild(_playBtn);
-			
-//			_timer.addEventListener(TimerEvent.TIMER,timerHandle);
 		}
 		
 		private function directionHandle(event : MouseEvent) : void
 		{
-			_model.stage.dispatchEvent(new DirectionBtnEvent(event.currentTarget.direction));
+			BdcApplication.application.dispatchEvent(new DirectionBtnEvent(event.currentTarget.direction));
 		}
 		
 		private function selectLevelHandle(event : PlayGameEvent) : void
@@ -265,7 +244,7 @@ package cn.bdconsulting.www.view
 			if(_model.unLockedLv < _model.currentLv+1) {
 				_model.unLockedLv++;
 			}
-			_model.stage.dispatchEvent(new OpenLevelEvent(OpenLevelEvent.OPEN_LEVEL_EVENT));
+			BdcApplication.application.dispatchEvent(new OpenLevelEvent(OpenLevelEvent.OPEN_LEVEL_EVENT));
 			successPage.setData(_map.time,_map.step,lvScore);
 			this.selectedIndex = 2;
 		}

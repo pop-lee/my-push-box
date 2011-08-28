@@ -1,7 +1,5 @@
 ﻿package cn.bdconsulting.www.view  
 {
-	import cn.bdconsulting.www.event.BdcContainer;
-	import cn.bdconsulting.www.event.BdcSprite;
 	import cn.bdconsulting.www.event.SuccessEvent;
 	import cn.bdconsulting.www.model.ModelLocator;
 	
@@ -14,6 +12,10 @@
 	import flash.system.System;
 	import flash.text.TextField;
 	import flash.utils.Timer;
+	import cn.bdconsulting.www.object.Role;
+	import cn.bdconsulting.www.object.Tile;
+	import cn.bdconsulting.www.config.Config;
+	import cn.bdconsulting.www.config.MapData;
 	
 	/**
 	 * ...
