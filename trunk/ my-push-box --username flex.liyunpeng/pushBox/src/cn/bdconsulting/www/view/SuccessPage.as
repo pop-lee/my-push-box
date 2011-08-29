@@ -21,35 +21,35 @@ package cn.bdconsulting.www.view
 			init();
 		}
 		
-		private var stepBar : BdcLabel = new BdcLabel();
-		private var timeBar : BdcLabel = new BdcLabel();
-		private var scoreBar : BdcLabel = new BdcLabel();
+		private var stepBar : BdcSprite = new BdcSprite();
+		private var timeBar : BdcSprite = new BdcSprite();
+		private var scoreBar : BdcSprite = new BdcSprite();
 		private function init() : void
 		{
-			this.backgroundImage = ModelLocator.getImageResource("successPage.png");
+			this.backgroundImage = ModelLocator.getImageResource("successPage");
 			
-			stepBar.textAlign = TextAlign.RIGHT;
-			stepBar.size = 20;
-			stepBar.x = 20;
+//			stepBar.textAlign = TextAlign.RIGHT;
+//			stepBar.size = 20;
+//			stepBar.x = 20;
 			stepBar.y = 123;
-			stepBar.width = 95;
-			stepBar.height = 26;
+//			stepBar.width = 95;
+//			stepBar.height = 26;
 			addChild(stepBar);
 			
-			timeBar.textAlign = TextAlign.RIGHT;
-			timeBar.size = 20;
-			timeBar.x = 20;
+//			timeBar.textAlign = TextAlign.RIGHT;
+//			timeBar.size = 20;
+//			timeBar.x = 20;
 			timeBar.y = 156;
-			timeBar.width = 95;
-			timeBar.height = 26;
+//			timeBar.width = 95;
+//			timeBar.height = 26;
 			addChild(timeBar);
 			
-			scoreBar.textAlign = TextAlign.RIGHT;
-			scoreBar.size = 20;
-			scoreBar.x = 65;
+//			scoreBar.textAlign = TextAlign.RIGHT;
+//			scoreBar.size = 20;
+//			scoreBar.x = 65;
 			scoreBar.y = 192;
-			scoreBar.width = 50;
-			scoreBar.height = 26;
+//			scoreBar.width = 50;
+//			scoreBar.height = 26;
 			addChild(scoreBar);
 			
 		}

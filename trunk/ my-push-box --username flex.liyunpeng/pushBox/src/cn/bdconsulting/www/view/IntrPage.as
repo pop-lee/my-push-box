@@ -32,9 +32,6 @@ package cn.bdconsulting.www.view
 		
 		private function init() : void
 		{
-//			var loader : Loader = new Loader();
-//			loader.load(new URLRequest("resource/background.png"));
-//			loader.contentLoaderInfo.addEventListener(Event.COMPLETE,loadComplete);
 			
 			label.text = _intr;
 			label.bold = true;
@@ -42,7 +39,7 @@ package cn.bdconsulting.www.view
 			label.color = 0xff0000;
 			label.size = 13;
 			label.width = 180;
-			label.height = 90;
+			label.height = 180;
 			label.x = 30;
 			label.y = 60;
 			addChild(label);
@@ -52,8 +49,8 @@ package cn.bdconsulting.www.view
 			backMainBtn.height = 30;
 			backMainBtn.x = 5;
 			backMainBtn.y = 300;
-			backMainBtn.label = "";
-			backMainBtn.backgroundImage = ModelLocator.getImageResource("returnBtn.png");
+//			backMainBtn.label = "";
+			backMainBtn.backgroundImage = ModelLocator.getImageResource("returnBtn");
 			backMainBtn.addEventListener(MouseEvent.CLICK,toMainPage);
 			addChild(backMainBtn);
 		}

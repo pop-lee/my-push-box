@@ -1,5 +1,6 @@
 package cn.bdconsulting.www.model
 {
+	import cn.bdconsulting.www.config.MapData;
 	import cn.bdconsulting.www.event.OpenLevelEvent;
 	import cn.bdconsulting.www.view.BdcApplication;
 	import cn.bdconsulting.www.view.BdcTextField;
@@ -10,14 +11,18 @@ package cn.bdconsulting.www.model
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Loader;
+	import flash.display.MovieClip;
 	import flash.display.Stage;
 	import flash.errors.IllegalOperationError;
+	import flash.geom.Matrix;
+	import flash.geom.Rectangle;
 	import flash.utils.ByteArray;
-	import cn.bdconsulting.www.config.MapData;
 
 	public class ModelLocator
 	{
 		private static var _model : ModelLocator = new ModelLocator();
+		
+		public var log : BdcTextField = new BdcTextField();
 		
 		public var resourceLoader : Loader = new Loader();
 		
@@ -49,10 +54,25 @@ package cn.bdconsulting.www.model
 			MttScore.query(onFinishQuery);
 		}
 		
-		public static function getImageResource(symbol : String) : Bitmap
+		public static function getImageResource(symbol : String) : *
 		{
-			var img : Class = _model.resourceLoader.contentLoaderInfo.applicationDomain.getDefinition(symbol) as Class;
-			return new Bitmap(new img() as BitmapData);
+			var resource : Class = _model.resourceLoader.contentLoaderInfo.applicationDomain.getDefinition(symbol) as Class;
+			var cls : * = new resource();
+			var bitmap : Bitmap = new Bitmap();
+			if(cls is MovieClip) {
+//				var bitmapData : BitmapData = new BitmapData(cls.width,330,true,0x0) ;
+////				var matrix : Matrix = new Matrix();
+//				if(symbol == "main") {
+//					ModelLocator.getInstance().log.text = bitmapData.height + "      " + (cls as MovieClip).getChildAt(0);
+//					BdcApplication.application.addChild(ModelLocator.getInstance().log);
+//				}
+//				bitmapData.draw(cls,new Matrix(),null,null,new Rectangle(0,0,cls.width,cls.height));
+//				bitmap = new Bitmap(bitmapData);
+				bitmap = (cls as MovieClip).getChildAt(0) as Bitmap;
+			} else if(cls is BitmapData) {
+				bitmap = new Bitmap(cls);
+			}
+			return bitmap;
 		}
 		
 		public static function getUnLockLevel(result:Object) : void
@@ -91,7 +111,9 @@ package cn.bdconsulting.www.model
 		
 		private static function onFinishSubmit(result:Object) : void
 		{
-			if(result != 0) {
+			if(result == 0) {
+				MttScore.query(onFinishQuery);
+			} else {
 				trace("submitError");
 			}
 		}
@@ -103,12 +125,13 @@ package cn.bdconsulting.www.model
 				return;
 			}
 			
+//			_model.topScoreArr = new Vector.<int>;
 			var items:Array = result.board as Array;
 			for (var i:int = 0; i < items.length; i++)
 			{
 //				sInfo += "\n好友[" + (i + 1) + "]:" + items[i].nickName + " " + items[i].score + " " + items[i].playTime;
 				var _score: int = items[i].score;
-				_model.topScoreArr.push(_score);
+				_model.topScoreArr[i] = _score;
 			}
 		}
 	}

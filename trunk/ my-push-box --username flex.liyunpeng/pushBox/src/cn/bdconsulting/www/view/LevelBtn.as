@@ -23,7 +23,7 @@ package cn.bdconsulting.www.view
 			super();
 			_lv = lv;
 			
-			this.backgroundImage = ModelLocator.getImageResource("lockLevel.png");
+			this.backgroundImage = ModelLocator.getImageResource("lockLevel");
 			
 			lvNum.backgroundImage = NumberImage.getNumberImage(_lv + 1);
 			addChild(lvNum);
@@ -41,7 +41,7 @@ package cn.bdconsulting.www.view
 		
 		public function openLvBtn() : void
 		{
-			this.backgroundImage = ModelLocator.getImageResource("unLockLevel.png");
+			this.backgroundImage = ModelLocator.getImageResource("unLockLevel");
 		}
 		
 		override public function set width(value:Number):void
