@@ -40,7 +40,7 @@ package cn.bdconsulting.www.view
 				var lvBtn : LevelBtn = new LevelBtn(i);
 				lvBtn.width = _bodyWidth;
 				lvBtn.height = _bodyHeight;
-				lvBtn.label = "";
+//				lvBtn.label = "";
 				lvBtn.x = (i%_columnCount)*(lvBtn.width+_horizontalLeading);
 				lvBtn.y = int(i/_columnCount)*(lvBtn.height + _verticalLeading);
 				lvBtn.addEventListener(MouseEvent.CLICK,playLv);

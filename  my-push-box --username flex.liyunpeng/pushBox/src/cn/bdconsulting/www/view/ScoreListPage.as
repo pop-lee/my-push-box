@@ -36,8 +36,8 @@ package cn.bdconsulting.www.view
 			backMainBtn.height = 30;
 			backMainBtn.x = 5;
 			backMainBtn.y = 300;
-			backMainBtn.label = "";
-			backMainBtn.backgroundImage = ModelLocator.getImageResource("returnBtn.png");
+//			backMainBtn.label = "";
+			backMainBtn.backgroundImage = ModelLocator.getImageResource("returnBtn");
 			backMainBtn.addEventListener(MouseEvent.CLICK,toMainPage);
 			addChild(backMainBtn);
 		}

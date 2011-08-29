@@ -21,14 +21,14 @@ package cn.bdconsulting.www.view
 		
 		private function init() : void
 		{
-			this.backgroundImage = "resource/main.png";//ModelLocator.getImageResource("main.png");
+//			this.backgroundImage = ModelLocator.getImageResource("main");
 			
 			var startGameBtn : BdcButton = new BdcButton();
 			startGameBtn.width = 120;
 			startGameBtn.height = 35;
 			startGameBtn.x = 80;
 			startGameBtn.y = 70;
-			startGameBtn.label = "";
+//			startGameBtn.label = "";
 			startGameBtn.backgroundAlpha = 0;
 			startGameBtn.addEventListener(MouseEvent.CLICK,toGamePage);
 			this.addChild(startGameBtn);
@@ -38,7 +38,7 @@ package cn.bdconsulting.www.view
 			gameIntrBtn.height = 35;
 			gameIntrBtn.x = 27;
 			gameIntrBtn.y = 111;
-			gameIntrBtn.label = "";
+//			gameIntrBtn.label = "";
 			gameIntrBtn.backgroundAlpha = 0;
 			gameIntrBtn.addEventListener(MouseEvent.CLICK,toIntrPage);
 			this.addChild(gameIntrBtn);
@@ -49,7 +49,7 @@ package cn.bdconsulting.www.view
 			scoreListBtn.x = 90;
 			scoreListBtn.y = 157;
 			scoreListBtn.backgroundAlpha = 0;
-			scoreListBtn.label = "";
+//			scoreListBtn.label = "";
 			scoreListBtn.addEventListener(MouseEvent.CLICK,toScroeListPage);
 			addChild(scoreListBtn);
 			
@@ -58,7 +58,7 @@ package cn.bdconsulting.www.view
 			exitBtn.height = 33;
 			exitBtn.x = 40;
 			exitBtn.y = 200;
-			exitBtn.label = "";
+//			exitBtn.label = "";
 			exitBtn.backgroundAlpha = 0;
 			exitBtn.addEventListener(MouseEvent.CLICK,exitGame);
 			addChild(exitBtn);
