@@ -1,11 +1,14 @@
 package cn.bdconsulting.www.view
 {
+	import cn.bdconsulting.www.config.MapData;
 	import cn.bdconsulting.www.event.ChangePageEvent;
 	import cn.bdconsulting.www.event.DirectionBtnEvent;
+	import cn.bdconsulting.www.event.LightBtnEvent;
 	import cn.bdconsulting.www.event.OpenLevelEvent;
 	import cn.bdconsulting.www.event.PlayGameEvent;
 	import cn.bdconsulting.www.event.SuccessEvent;
 	import cn.bdconsulting.www.model.ModelLocator;
+	import cn.bdconsulting.www.object.Role;
 	
 	import com.qq.openapi.MttGameData;
 	import com.qq.openapi.MttService;
@@ -15,7 +18,6 @@ package cn.bdconsulting.www.view
 	import flash.events.MouseEvent;
 	import flash.net.URLRequest;
 	import flash.utils.ByteArray;
-	import cn.bdconsulting.www.object.Role;
 	
 	public class GamePage extends BdcViewStack
 	{
@@ -109,59 +111,55 @@ package cn.bdconsulting.www.view
 			_gamePanel.addChild(_backMainBtn2);
 			_gamePanel.addChild(_restartBtn);
 			
-////			var title : BdcTextField = new BdcTextField();
-////			title.text = "大连尚嘉";
-////			title.x = stage.stageWidth - title.width;
-////			title.y = stage.stageHeight - title.textHeight - 2;
-////			addChild(title);
-//			
-////			_scoreBar.text = "0秒";
-////			_scoreBar.width = _scoreBar.textWidth + 10;
-////			_scoreBar.x = stage.stageWidth - _scoreBar.width;
-////			_scoreBar.y = 5;
-////			addChild(_scoreBar);
+			//方向键
+//			var directionBtn : BdcSprite = new BdcSprite();
+//			directionBtn.backgroundImage = ModelLocator.getImageResource("direction");
+//			_gamePanel.addChild(directionBtn);
 			
-			var directionBtn : BdcSprite = new BdcSprite();
-			directionBtn.backgroundImage = ModelLocator.getImageResource("direction");
-			_gamePanel.addChild(directionBtn);
+			var size : int = 80;
+			
 			
 			var topBtn : DirectionBtn = new DirectionBtn();
-			topBtn.width = 26;
-			topBtn.height = 26;
-			topBtn.x = 27;
+			topBtn.width = size;
+			topBtn.height = size;
+			topBtn.x = 80;
 			topBtn.y = 0;
 //			topBtn.label = "";
-			topBtn.backgroundAlpha = 0;
+//			topBtn.backgroundAlpha = 0;
+			topBtn.icon = ModelLocator.getImageResource("Up");
 			topBtn.direction = DirectionBtnEvent.TOP;
 			topBtn.addEventListener(MouseEvent.MOUSE_DOWN,directionHandle);
 			_gamePanel.addChild(topBtn);
 			var bottomBtn : DirectionBtn = new DirectionBtn();
-			bottomBtn.width = 26;
-			bottomBtn.height = 26;
-			bottomBtn.x = 27;
-			bottomBtn.y = 50;
+			bottomBtn.width = size;
+			bottomBtn.height = size;
+			bottomBtn.x = 80;
+			bottomBtn.y = 220;
 //			bottomBtn.label = "";
-			bottomBtn.backgroundAlpha = 0;
+//			bottomBtn.backgroundAlpha = 0;
+			bottomBtn.icon = ModelLocator.getImageResource("Down");
 			bottomBtn.direction = DirectionBtnEvent.BOTTOM;
 			bottomBtn.addEventListener(MouseEvent.MOUSE_DOWN,directionHandle);
 			_gamePanel.addChild(bottomBtn);
 			var leftBtn : DirectionBtn = new DirectionBtn();
-			leftBtn.width = 26;
-			leftBtn.height = 26;
+			leftBtn.width = size;
+			leftBtn.height = size;
 			leftBtn.x = 0;
-			leftBtn.y = 26;
+			leftBtn.y = 110;
 //			leftBtn.label = "";
-			leftBtn.backgroundAlpha = 0;
+//			leftBtn.backgroundAlpha = 0;
+			leftBtn.icon = ModelLocator.getImageResource("Left");
 			leftBtn.direction = DirectionBtnEvent.LEFT;
 			leftBtn.addEventListener(MouseEvent.MOUSE_DOWN,directionHandle);
 			_gamePanel.addChild(leftBtn);
 			var rightBtn : DirectionBtn = new DirectionBtn();
-			rightBtn.width = 26;
-			rightBtn.height = 26;
-			rightBtn.y = 26;
-			rightBtn.x = 54;
+			rightBtn.width = size;
+			rightBtn.height = size;
+			rightBtn.x = 160;
+			rightBtn.y = 110;
 //			rightBtn.label = "";
-			rightBtn.backgroundAlpha = 0;
+//			rightBtn.backgroundAlpha = 0;
+			rightBtn.icon = ModelLocator.getImageResource("Right");
 			rightBtn.direction = DirectionBtnEvent.RIGHT;
 			rightBtn.addEventListener(MouseEvent.MOUSE_DOWN,directionHandle);
 			_gamePanel.addChild(rightBtn);
@@ -211,6 +209,7 @@ package cn.bdconsulting.www.view
 		private function selectLevelHandle(event : PlayGameEvent) : void
 		{
 			this.selectedIndex = 1;
+			BdcApplication.application.dispatchEvent(new LightBtnEvent());
 			_model.currentLv = event.lv;
 			_map.lv = event.lv;
 		}
@@ -237,7 +236,7 @@ package cn.bdconsulting.www.view
 		private function successHandle(event : SuccessEvent) : void
 		{
 			var lvScore : int = 200 - _map.time;
-			if(_model.unLockedLv < _model.currentLv+1) {
+			if(_model.currentLv+1 != MapData.MAP.length && _model.unLockedLv < _model.currentLv+1) {
 				_model.unLockedLv++;
 			}
 			if(_model.scoreArr[_model.currentLv] < lvScore) {
@@ -253,7 +252,12 @@ package cn.bdconsulting.www.view
 		private function nextLv(event : MouseEvent) : void
 		{
 			this.selectedIndex = 1;
-			_map.lv = ++_model.currentLv;
+			BdcApplication.application.dispatchEvent(new LightBtnEvent());
+			if(_model.currentLv + 1 == MapData.MAP.length) {
+				_map.lv = _model.currentLv = 0;
+			} else {
+				_map.lv = ++_model.currentLv;
+			}
 		}
 	}
 }

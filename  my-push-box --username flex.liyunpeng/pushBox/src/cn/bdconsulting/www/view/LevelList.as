@@ -34,7 +34,7 @@ package cn.bdconsulting.www.view
 			var _bodyHeight : int = 38;
 			
 			this.width = _columnCount*_bodyWidth + (_columnCount-1)*_horizontalLeading;
-			this.height = ((_lvCount/_columnCount)+1)*_bodyHeight + (_lvCount/_columnCount)*_verticalLeading;
+			this.height = (int((_lvCount - 1)/_columnCount)+1)*_bodyHeight + ((_lvCount-1)/_columnCount)*_verticalLeading;
 			
 			for(var i : int = 0;i < _lvCount; i++) {
 				var lvBtn : LevelBtn = new LevelBtn(i);

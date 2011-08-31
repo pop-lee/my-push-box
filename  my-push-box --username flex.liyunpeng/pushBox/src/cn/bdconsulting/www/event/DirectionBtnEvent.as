@@ -6,10 +6,10 @@ package cn.bdconsulting.www.event
 	{
 		public static const DIRECTION_EVENT:String = "directionEvent";
 		
-		public static const LEFT:String = "left";
-		public static const RIGHT : String = "right";
-		public static const TOP : String = "top";
-		public static const BOTTOM:String = "bottom";
+		public static const LEFT:String = "Left";
+		public static const RIGHT : String = "Right";
+		public static const TOP : String = "Top";
+		public static const BOTTOM:String = "Bottom";
 		
 		public var direction : String ;
 		
