@@ -51,6 +51,7 @@ package cn.bdconsulting.www.model
 		public static function initData() : void
 		{
 			MttGameData.get("unLockedLevel",getUnLockLevel);
+			MttGameData.get("scoreData",getScore);
 			MttScore.query(onFinishQuery);
 		}
 		
@@ -78,8 +79,19 @@ package cn.bdconsulting.www.model
 		public static function getUnLockLevel(result:Object) : void
 		{
 			if(result.code == 0) {
-				_model.unLockedLv = result.value.readObject();
+				_model.unLockedLv = int(result.value.readObject());
 				BdcApplication.application.dispatchEvent(new OpenLevelEvent(OpenLevelEvent.OPEN_LEVEL_EVENT));
+			} else {
+				_model.log.text += "getUnLockError";
+			}
+		}
+		public static function getScore(result: Object) : void
+		{
+			if(result.code == 0) {
+				_model.scoreArr = Vector.<int>(result.value.readObject());
+				BdcApplication.application.dispatchEvent(new OpenLevelEvent(OpenLevelEvent.OPEN_LEVEL_EVENT));
+			} else {
+				_model.log.text += "getScoreError";
 			}
 		}
 		
@@ -99,29 +111,29 @@ package cn.bdconsulting.www.model
 			var scoreData : ByteArray = new ByteArray();
 			scoreData.writeObject(_model.scoreArr);
 			MttGameData.put("unLockedLevel",lvData,saveFinished);
-			MttGameData.put("unLockedLevel",scoreData,saveFinished);
+			MttGameData.put("scoreData",scoreData,saveFinished);
 		}
 		
 		private static function saveFinished(result:Object) : void
 		{
-			if(result != 0) {
-				trace("saveError");
+			if(result.code != 0) {
+				_model.log.text += "  saveError  " + result.code + "\n";
 			}
 		}
 		
 		private static function onFinishSubmit(result:Object) : void
 		{
-			if(result == 0) {
+			if(result.code == 0) {
 				MttScore.query(onFinishQuery);
 			} else {
-				trace("submitError");
+				_model.log.text += "  submitError  " + result.code + "\n";
 			}
 		}
 		
 		private static function onFinishQuery(result:Object):void
 		{
 			if (result.code != 0) {
-				trace("queryError");
+				_model.log.text += "  queryError  " + result.code + "\n";
 				return;
 			}
 			
