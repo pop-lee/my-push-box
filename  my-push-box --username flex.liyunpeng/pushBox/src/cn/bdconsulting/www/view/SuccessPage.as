@@ -58,11 +58,11 @@ package cn.bdconsulting.www.view
 //			timeBar.text = time.toString();
 //			stepBar.text = step.toString();
 //			scoreBar.text = score.toString();
-			timeBar.backgroundImage = NumberImage.getNumberImage(time);
+			timeBar.drawBackgroundImage(NumberImage.getNumberImage(time).bitmapData);
 			timeBar.x = 112 - NumberImage.getNumberImage(time).width;
-			stepBar.backgroundImage = NumberImage.getNumberImage(step);
+			stepBar.drawBackgroundImage(NumberImage.getNumberImage(step).bitmapData);
 			stepBar.x = 112 - NumberImage.getNumberImage(step).width;
-			scoreBar.backgroundImage = NumberImage.getNumberImage(score);
+			scoreBar.drawBackgroundImage(NumberImage.getNumberImage(score).bitmapData);
 			scoreBar.x = 112 - NumberImage.getNumberImage(score).width;
 		}
 	}
