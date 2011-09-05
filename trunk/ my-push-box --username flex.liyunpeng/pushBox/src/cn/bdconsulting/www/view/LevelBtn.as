@@ -5,6 +5,8 @@ package cn.bdconsulting.www.view
 	
 	import com.qq.openapi.MttService;
 	
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import flash.display.Loader;
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -12,6 +14,9 @@ package cn.bdconsulting.www.view
 
 	public class LevelBtn extends BdcButton
 	{
+		private var lockLvClass : Class;
+		private var unlockLvClass : Class;
+		
 		private var _lv : int;
 		
 		private var _loader : Loader = new Loader();
@@ -23,9 +28,14 @@ package cn.bdconsulting.www.view
 			super();
 			_lv = lv;
 			
-			this.backgroundImage = ModelLocator.getImageResource("lockLevel");
+			lockLvClass = ModelLocator.getImageResource("lockLevel")
+			unlockLvClass = ModelLocator.getImageResource("unLockLevel");
+			this.backgroundImage = lockLvClass;
 			
-			lvNum.backgroundImage = NumberImage.getNumberImage(_lv + 1);
+			var bitmapData : BitmapData = NumberImage.getNumberImage(_lv + 1).bitmapData;
+			lvNum.graphics.beginBitmapFill(bitmapData);
+			lvNum.graphics.drawRect(0,0,bitmapData.width,bitmapData.height);
+			lvNum.graphics.endFill();
 			addChild(lvNum);
 		}
 		
@@ -41,18 +51,18 @@ package cn.bdconsulting.www.view
 		
 		public function openLvBtn() : void
 		{
-			this.backgroundImage = ModelLocator.getImageResource("unLockLevel");
+			this.backgroundImage = unlockLvClass;
 		}
 		
 		override public function set width(value:Number):void
 		{
 			super.width = value;
-			lvNum.x = (value - lvNum.backgroundImage.width)/2;
+			lvNum.x = (value - lv.toString().length*14)/2;
 		}
 		override public function set height(value:Number):void
 		{
 			super.height = value;
-			lvNum.y = (value - lvNum.backgroundImage.height)/2;
+			lvNum.y = (value - 19)/2;
 		}
 	}
 }

@@ -1,7 +1,11 @@
 ﻿package cn.bdconsulting.www.view  
 {
+	import cn.bdconsulting.www.config.Config;
+	import cn.bdconsulting.www.config.MapData;
 	import cn.bdconsulting.www.event.SuccessEvent;
 	import cn.bdconsulting.www.model.ModelLocator;
+	import cn.bdconsulting.www.object.Role;
+	import cn.bdconsulting.www.object.Tile;
 	
 	import flash.display.DisplayObject;
 	import flash.display.Loader;
@@ -12,10 +16,6 @@
 	import flash.system.System;
 	import flash.text.TextField;
 	import flash.utils.Timer;
-	import cn.bdconsulting.www.object.Role;
-	import cn.bdconsulting.www.object.Tile;
-	import cn.bdconsulting.www.config.Config;
-	import cn.bdconsulting.www.config.MapData;
 	
 	/**
 	 * ...
@@ -82,6 +82,7 @@
 			while(numChildren - 1 > 0) {
 				removeChildAt(0);
 			}
+			System.gc();
 		}
 		public function checkSuccess():void {
 			if(isSuccess()){

@@ -55,25 +55,21 @@ package cn.bdconsulting.www.model
 			MttScore.query(onFinishQuery);
 		}
 		
-		public static function getImageResource(symbol : String) : *
+		public static function getImageResource(symbol : String) : Class
 		{
 			var resource : Class = _model.resourceLoader.contentLoaderInfo.applicationDomain.getDefinition(symbol) as Class;
-			var cls : * = new resource();
-			var bitmap : Bitmap = new Bitmap();
-			if(cls is MovieClip) {
-//				var bitmapData : BitmapData = new BitmapData(cls.width,330,true,0x0) ;
-////				var matrix : Matrix = new Matrix();
-//				if(symbol == "main") {
-//					ModelLocator.getInstance().log.text = bitmapData.height + "      " + (cls as MovieClip).getChildAt(0);
-//					BdcApplication.application.addChild(ModelLocator.getInstance().log);
-//				}
-//				bitmapData.draw(cls,new Matrix(),null,null,new Rectangle(0,0,cls.width,cls.height));
-//				bitmap = new Bitmap(bitmapData);
-				bitmap = (cls as MovieClip).getChildAt(0) as Bitmap;
-			} else if(cls is BitmapData) {
-				bitmap = new Bitmap(cls);
-			}
-			return bitmap;
+//			var cls : * = new resource();
+//			var bitmap : Bitmap = new Bitmap();
+//			if(cls is MovieClip) {
+////				var bitmapData : BitmapData = new BitmapData(cls.width,330,true,0x0) ;
+////				bitmapData.draw(cls,new Matrix(),null,null,new Rectangle(0,0,cls.width,cls.height));
+////				bitmap = new Bitmap(bitmapData);
+//				trace((cls as MovieClip).getChildAt(0));
+//				bitmap = (cls as MovieClip).getChildAt(0) as Bitmap;
+//			} else if(cls is BitmapData) {
+//				bitmap = new Bitmap(cls);
+//			}
+			return resource;
 		}
 		
 		public static function getUnLockLevel(result:Object) : void
