@@ -97,7 +97,6 @@
 					move(0, 1);
 					break;
 				default:
-					trace(e.keyCode);
 					break;
 			}
 		}

@@ -113,9 +113,7 @@
 		
 		public function setMapData(py:int, px:int, type:int):void {
 			_mapData[py][px] = type;
-			//trace(py,px,_mapData[py][px]);
 			repaintMap();
-//			checkSuccess();
 		}
 		public function getMapData():Array {
 			return _mapData;
