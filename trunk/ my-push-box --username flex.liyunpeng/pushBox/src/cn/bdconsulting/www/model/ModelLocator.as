@@ -64,7 +64,6 @@ package cn.bdconsulting.www.model
 ////				var bitmapData : BitmapData = new BitmapData(cls.width,330,true,0x0) ;
 ////				bitmapData.draw(cls,new Matrix(),null,null,new Rectangle(0,0,cls.width,cls.height));
 ////				bitmap = new Bitmap(bitmapData);
-//				trace((cls as MovieClip).getChildAt(0));
 //				bitmap = (cls as MovieClip).getChildAt(0) as Bitmap;
 //			} else if(cls is BitmapData) {
 //				bitmap = new Bitmap(cls);
