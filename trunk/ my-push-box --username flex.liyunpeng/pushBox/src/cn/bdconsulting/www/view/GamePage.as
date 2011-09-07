@@ -83,7 +83,7 @@ package cn.bdconsulting.www.view
 			_map.backgroundAlpha = 0;
 			_map.addEventListener(SuccessEvent.SUCCESS_EVENT,successHandle);
 			_gamePanel.addChild(_map);
-			_map.lv = _model.currentLv;
+//			_map.lv = _model.currentLv;
 			
 			var _return2Btn : BdcSprite = new BdcSprite();
 			_return2Btn.width = 240;

@@ -17,8 +17,9 @@ package cn.bdconsulting.www.view
 	{
 		private var _intr : String = "" +
 			"游戏说明：\n" +
-			"将所有箱子推到目的地即为过关\n" +
-			"使用时间越少，则最后积分越高\n";
+			"■将所有箱子推到目的地即为过关。\n" +
+			"■使用时间越少，则最后积分越高。\n" +
+			"■我们将记录玩家每一关的最高记录，以算去所有以解锁的关卡的总分数进行排名。";
 		
 		private var label : BdcLabel = new BdcLabel();
 		
