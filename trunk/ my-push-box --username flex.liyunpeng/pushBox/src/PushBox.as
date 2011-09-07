@@ -3,6 +3,7 @@ package
 	import cn.bdconsulting.www.core.BdcLogEvent;
 	import cn.bdconsulting.www.event.ChangePageEvent;
 	import cn.bdconsulting.www.model.ModelLocator;
+	import cn.bdconsulting.www.view.BDCLogo;
 	import cn.bdconsulting.www.view.BdcApplication;
 	import cn.bdconsulting.www.view.BdcContainer;
 	import cn.bdconsulting.www.view.BdcLabel;
@@ -21,6 +22,7 @@ package
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
 	import flash.display.Loader;
+	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
@@ -29,6 +31,7 @@ package
 	import flash.events.TimerEvent;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
+	import flash.system.System;
 	import flash.utils.ByteArray;
 	import flash.utils.Timer;
 	
@@ -37,12 +40,11 @@ package
 	[SWF(width="240", height="330", backgroundColor="#cccccc")]
 	public class PushBox extends BdcApplication
 	{
-		[Embed(source="resource/logo.png")]
-		private var logo : Class;
+		private var logo : BDCLogo = new BDCLogo();
 		
 		private var _model : ModelLocator = ModelLocator.getInstance();
 		
-		private var vs : BdcViewStack = new BdcViewStack();;
+		private var vs : BdcViewStack = new BdcViewStack();
 		
 		private var mainPage : MainPage ;
 		
@@ -52,12 +54,11 @@ package
 		
 		private var scoreList : ScoreListPage ;
 		
-		
 		public function PushBox()
 		{
+			addChild(logo);
 		}
 		
-		private var _logo : BdcSprite = new BdcSprite();
 		private var timer : Timer = new Timer(10);
 		override protected function init() : void
 		{
@@ -68,31 +69,26 @@ package
 			MttService.addEventListener(MttService.ETLOGOUT, onLogout);
 			MttService.putSubResource("resourceURL","resource","/pushBox/resource");
 			
-			_logo.percentWidth = 100;
-			_logo.percentHeight = 100;
-			_logo.backgroundImage = (new logo()) as Bitmap;
-			addChild(_logo);
 			timer.addEventListener(TimerEvent.TIMER,hideLogo);
-			
 			
 			_model.resourceLoader.contentLoaderInfo.addEventListener(Event.COMPLETE,loadResourceCompleteHandle);
 			_model.resourceLoader.load(new URLRequest(MttService.getSubResource("resourceURL") + "/pushBoxResource.swf"));
 			
-//			var log : BdcTextField = new BdcTextField();
-//			log.text = ModelLocator.getImageResource("logo.png");
-//			log.width = 240;
-//			log.height = 20;
-//			log.x = 0;
-//			log.y = 100;
-//			addChild(log);
-			
+			_model.log.width = 240;
+			_model.log.height = 20;
+			_model.log.x = 0;
+			_model.log.y = 100;
+			_model.log.text = "";
 		}
 		
 		private function loadResourceCompleteHandle(event : Event) : void
 		{
 			timer.start();
-			initData();
 			initUI();
+			initData();
+			_model.resourceLoader.unload();
+//			addChild(_model.log);
+			
 		}
 		
 		private function initData() : void
@@ -102,11 +98,13 @@ package
 		
 		private function hideLogo(event : TimerEvent) : void
 		{
-			if(_logo.alpha < 0 && vs.alpha > 1) {
+			if(logo.alpha < 0 && vs.alpha > 1) {
 				timer.stop();
-				removeChild(_logo);
+				timer.removeEventListener(TimerEvent.TIMER,hideLogo);
+				removeChild(logo);
+				logo = null;
 			} else {
-				_logo.alpha -=0.1;
+				logo.alpha -=0.1;
 				vs.alpha += 0.1;
 			}
 		}
@@ -121,6 +119,7 @@ package
 			mainPage = new MainPage();
 			mainPage.percentWidth = 100;
 			mainPage.percentHeight = 100;
+			mainPage.backgroundImage = ModelLocator.getImageResource("main");
 			mainPage.addEventListener(ChangePageEvent.CHANGE_PAGE_EVENT,changePageHandle);
 			vs.addItem(mainPage);
 			
@@ -135,7 +134,7 @@ package
 			intrPage.percentWidth = 100;
 			intrPage.percentHeight = 100;
 			intrPage.backgroundAlpha = 0;
-			intrPage.backgroundImage = ModelLocator.getImageResource("background.png");
+			intrPage.backgroundImage = ModelLocator.getImageResource("background");
 			intrPage.addEventListener(ChangePageEvent.CHANGE_PAGE_EVENT,changePageHandle);
 			vs.addItem(intrPage);
 			
@@ -143,7 +142,7 @@ package
 			scoreList.percentWidth = 100;
 			scoreList.percentHeight = 100;
 			scoreList.backgroundAlpha = 0;
-			scoreList.backgroundImage = ModelLocator.getImageResource("background.png");
+			scoreList.backgroundImage = ModelLocator.getImageResource("background");
 			scoreList.addEventListener(ChangePageEvent.CHANGE_PAGE_EVENT,changePageHandle);
 			vs.addItem(scoreList);
 		}
