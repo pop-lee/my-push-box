@@ -38,7 +38,7 @@ package cn.bdconsulting.www.view
 			label.bold = true;
 			label.wordWrap = true;
 			label.color = 0xff0000;
-			label.size = 13;
+			label.size = 14;
 			label.width = 180;
 			label.height = 180;
 			label.x = 30;

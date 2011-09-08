@@ -14,9 +14,6 @@ package cn.bdconsulting.www.view
 
 	public class LevelBtn extends BdcButton
 	{
-		private var lockLvClass : Class;
-		private var unlockLvClass : Class;
-		
 		private var _lv : int;
 		
 		private var _loader : Loader = new Loader();
@@ -28,15 +25,11 @@ package cn.bdconsulting.www.view
 			super();
 			_lv = lv;
 			
-			lockLvClass = ModelLocator.getImageResource("lockLevel")
-			unlockLvClass = ModelLocator.getImageResource("unLockLevel");
-			this.backgroundImage = lockLvClass;
-			
-			var bitmapData : BitmapData = NumberImage.getNumberImage(_lv + 1).bitmapData;
-			lvNum.graphics.beginBitmapFill(bitmapData);
-			lvNum.graphics.drawRect(0,0,bitmapData.width,bitmapData.height);
-			lvNum.graphics.endFill();
-			addChild(lvNum);
+//			var bitmapData : BitmapData = NumberImage.getNumberImage(_lv + 1).bitmapData;
+//			lvNum.graphics.beginBitmapFill(bitmapData);
+//			lvNum.graphics.drawRect(0,0,bitmapData.width,bitmapData.height);
+//			lvNum.graphics.endFill();
+//			addChild(lvNum);
 		}
 		
 		public function get lv() : int
@@ -47,11 +40,6 @@ package cn.bdconsulting.www.view
 		public function openLv() : void
 		{
 			
-		}
-		
-		public function openLvBtn() : void
-		{
-			this.backgroundImage = unlockLvClass;
 		}
 		
 		override public function set width(value:Number):void

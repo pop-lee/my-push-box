@@ -4,7 +4,6 @@ package cn.bdconsulting.www.view
 	import cn.bdconsulting.www.event.ChangePageEvent;
 	import cn.bdconsulting.www.event.DirectionBtnEvent;
 	import cn.bdconsulting.www.event.LightBtnEvent;
-	import cn.bdconsulting.www.event.OpenLevelEvent;
 	import cn.bdconsulting.www.event.PlayGameEvent;
 	import cn.bdconsulting.www.event.SuccessEvent;
 	import cn.bdconsulting.www.model.ModelLocator;
@@ -68,9 +67,6 @@ package cn.bdconsulting.www.view
 			
 			_levelListPanel.addChild(_levelList);
 			_levelListPanel.addChild(_backMainBtn1);
-			
-			BdcApplication.application.dispatchEvent(new OpenLevelEvent(OpenLevelEvent.OPEN_LEVEL_EVENT));
-			
 			
 			
 			var _gamePanel : BdcContainer = new BdcContainer();
@@ -230,6 +226,7 @@ package cn.bdconsulting.www.view
 		
 		private function toLevelListPage(event : MouseEvent) : void
 		{
+			_levelList.build();
 			this.selectedIndex = 0;
 		}
 		
@@ -238,13 +235,13 @@ package cn.bdconsulting.www.view
 			var lvScore : int = 200 - _map.time;
 			if(_model.currentLv+1 != MapData.MAP.length && _model.unLockedLv < _model.currentLv+1) {
 				_model.unLockedLv++;
+				ModelLocator.saveLv();
 			}
 			if(_model.scoreArr[_model.currentLv] < lvScore) {
 				_model.scoreArr[_model.currentLv] = lvScore;
-				ModelLocator.saveLv();
-				ModelLocator.submitScore();
+				ModelLocator.saveScoreData();
+//				ModelLocator.submitScore();
 			}
-			BdcApplication.application.dispatchEvent(new OpenLevelEvent(OpenLevelEvent.OPEN_LEVEL_EVENT));
 			successPage.setData(_map.time,_map.step,lvScore);
 			this.selectedIndex = 2;
 		}
