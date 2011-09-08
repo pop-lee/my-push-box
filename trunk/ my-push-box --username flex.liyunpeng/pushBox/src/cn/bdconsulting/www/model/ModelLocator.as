@@ -1,7 +1,7 @@
 package cn.bdconsulting.www.model
 {
 	import cn.bdconsulting.www.config.MapData;
-	import cn.bdconsulting.www.event.OpenLevelEvent;
+	import cn.bdconsulting.www.event.BdcInitializeDataEvent;
 	import cn.bdconsulting.www.view.BdcApplication;
 	import cn.bdconsulting.www.view.BdcTextField;
 	
@@ -35,6 +35,8 @@ package cn.bdconsulting.www.model
 		public var scoreArr : Vector.<int> = new Vector.<int>(MapData.MAP.length);
 		
 		public var topScoreArr : Vector.<int> = new Vector.<int>;
+		
+		private var initDataFg : int = 0;
 		
 		public function ModelLocator()
 		{
@@ -75,18 +77,22 @@ package cn.bdconsulting.www.model
 		{
 			if(result.code == 0) {
 				_model.unLockedLv = int(result.value.readObject());
-				BdcApplication.application.dispatchEvent(new OpenLevelEvent(OpenLevelEvent.OPEN_LEVEL_EVENT));
+				validInit();
+				_model.log.text += "unlockedLv" + _model.initDataFg + "\n";
 			} else {
-				_model.log.text += "getUnLockError";
+				_model.log.visible = true;
+				_model.log.text += "getUnLockError" + result.code + "\n";
 			}
 		}
 		public static function getScore(result: Object) : void
 		{
 			if(result.code == 0) {
 				_model.scoreArr = Vector.<int>(result.value.readObject());
-				BdcApplication.application.dispatchEvent(new OpenLevelEvent(OpenLevelEvent.OPEN_LEVEL_EVENT));
+				validInit();
+				_model.log.text += "getScore" + _model.initDataFg + "\n";
 			} else {
-				_model.log.text += "getScoreError";
+				_model.log.visible = true;
+				_model.log.text += "getScoreError" + result.code + "\n";
 			}
 		}
 		
@@ -103,15 +109,22 @@ package cn.bdconsulting.www.model
 		{
 			var lvData : ByteArray = new ByteArray();
 			lvData.writeObject(_model.unLockedLv);
+			MttGameData.put("unLockedLevel",lvData,saveFinished);
+			saveScoreData();
+		}
+		
+		public static function saveScoreData() : void
+		{
 			var scoreData : ByteArray = new ByteArray();
 			scoreData.writeObject(_model.scoreArr);
-			MttGameData.put("unLockedLevel",lvData,saveFinished);
 			MttGameData.put("scoreData",scoreData,saveFinished);
+			submitScore();
 		}
 		
 		private static function saveFinished(result:Object) : void
 		{
 			if(result.code != 0) {
+				_model.log.visible = true;
 				_model.log.text += "  saveError  " + result.code + "\n";
 			}
 		}
@@ -121,6 +134,7 @@ package cn.bdconsulting.www.model
 			if(result.code == 0) {
 				MttScore.query(onFinishQuery);
 			} else {
+				_model.log.visible = true;
 				_model.log.text += "  submitError  " + result.code + "\n";
 			}
 		}
@@ -128,6 +142,7 @@ package cn.bdconsulting.www.model
 		private static function onFinishQuery(result:Object):void
 		{
 			if (result.code != 0) {
+				_model.log.visible = true;
 				_model.log.text += "  queryError  " + result.code + "\n";
 				return;
 			}
@@ -139,6 +154,16 @@ package cn.bdconsulting.www.model
 //				sInfo += "\n好友[" + (i + 1) + "]:" + items[i].nickName + " " + items[i].score + " " + items[i].playTime;
 				var _score: int = items[i].score;
 				_model.topScoreArr[i] = _score;
+			}
+			validInit();
+			_model.log.text += "queryFinished" + _model.initDataFg + "\n";
+		}
+		
+		private static function validInit() : void
+		{
+			_model.initDataFg ++ ;
+			if(_model.initDataFg == 1) {
+				BdcApplication.application.dispatchEvent(new BdcInitializeDataEvent());
 			}
 		}
 	}

@@ -2,6 +2,7 @@ package cn.bdconsulting.www.view
 {
 	import cn.bdconsulting.www.event.LightBtnEvent;
 	import cn.bdconsulting.www.event.UnLightBtnEvent;
+	import cn.bdconsulting.www.model.ModelLocator;
 	
 	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
@@ -21,6 +22,8 @@ package cn.bdconsulting.www.view
 		
 		private var _isHideEffect : Boolean = true;
 		
+		public static var iii : int = 0;
+		
 		public function DirectionBtn()
 		{
 			super();
@@ -35,6 +38,8 @@ package cn.bdconsulting.www.view
 			this.addEventListener(MouseEvent.MOUSE_DOWN,mouseDownHandle);
 			this.addEventListener(MouseEvent.MOUSE_UP,mouseUpHandle);
 			
+			this.backgroundAlpha = 0;
+			_btn.backgroundAlpha = 0;
 			_btn.width = 36;
 			_btn.height = 36;
 			addChild(_btn);
