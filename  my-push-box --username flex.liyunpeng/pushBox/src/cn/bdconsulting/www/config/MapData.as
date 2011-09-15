@@ -2,7 +2,7 @@
 {
 	/**
 	 * ...
-	 * @author DFdou
+	 * @author LiYunpeng
 	 */
 	public class MapData
 	{
