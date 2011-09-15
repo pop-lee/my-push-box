@@ -4,6 +4,7 @@ package
 	import cn.bdconsulting.www.event.BdcInitializeDataEvent;
 	import cn.bdconsulting.www.event.ChangePageEvent;
 	import cn.bdconsulting.www.model.ModelLocator;
+	import cn.bdconsulting.www.tools.ManageDataTools;
 	import cn.bdconsulting.www.view.BDCLogo;
 	import cn.bdconsulting.www.view.BdcAlert;
 	import cn.bdconsulting.www.view.BdcApplication;
@@ -60,6 +61,19 @@ package
 		public function PushBox()
 		{
 			addChild(logo);
+			
+			_model.log.width = 240;
+			_model.log.height = 320;
+			_model.log.wordWrap = true;
+			_model.log.x = 10;
+			_model.log.y = 10;
+			_model.log.backgroundAlpha = 1;
+			_model.log.backgroundImage = 0xffffff;
+			_model.log.text = "加载资源……  " + 0 + "%" + "\n";
+//			_model.log.addEventListener(MouseEvent.MOUSE_DOWN,function tmp(event : MouseEvent) : void{
+//				_model.log.visible = false;
+//			});
+			addChild(_model.log);
 		}
 		
 		private var timer : Timer = new Timer(5);
@@ -79,32 +93,20 @@ package
 			vs.percentHeight = 100;
 			addChild(vs);
 			
-			_model.log.width = 240;
-			_model.log.height = 320;
-			_model.log.wordWrap = true;
-			_model.log.x = 10;
-			_model.log.y = 10;
-			addChild(_model.log);
-			_model.log.backgroundAlpha = 1;
-			_model.log.backgroundImage = 0xffffff;
-			_model.log.addEventListener(MouseEvent.MOUSE_DOWN,function tmp(event : MouseEvent) : void{
-				_model.log.visible = false;
-			});
-			
 			initData();
 		}
 		
 		private function initData() : void
 		{
 			BdcApplication.application.addEventListener(BdcInitializeDataEvent.INITIALIZE_DATA_EVENT,loadResource);
-			ModelLocator.initData();
+			ManageDataTools.initData();
 		}
 		
 		private function loadResource(event : BdcInitializeDataEvent) : void
 		{
 			BdcApplication.application.removeEventListener(BdcInitializeDataEvent.INITIALIZE_DATA_EVENT,loadResource);
-			_model.resourceLoader.contentLoaderInfo.addEventListener(Event.COMPLETE,loadResourceCompleteHandle);
 			_model.resourceLoader.contentLoaderInfo.addEventListener(ProgressEvent.PROGRESS,progressHandle);
+			_model.resourceLoader.contentLoaderInfo.addEventListener(Event.COMPLETE,loadResourceCompleteHandle);
 			_model.resourceLoader.load(new URLRequest(MttService.getSubResource("resourceURL") + "/pushBoxResource.swf"));
 		}
 		
@@ -115,10 +117,7 @@ package
 			
 			BdcAlert.background = cls;
 			BdcAlert.okBtn = cls2;
-			BdcAlert.show("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-			BdcAlert.show("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-			BdcAlert.show("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-			BdcAlert.show("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+//			BdcAlert.show("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 			timer.start();
 			initUI();
 			_model.resourceLoader.unload();
@@ -129,7 +128,12 @@ package
 		{
 			var loadPro : int = int(event.bytesLoaded/event.bytesTotal*100);
 			if(loadPro > 100) loadPro = 100;
-			_model.log.text += "加载资源……  " + loadPro + "%" + "\n";
+			if(loadPro < 80) loadPro = 80;
+			_model.log.text = "加载资源……  " + loadPro + "%" + "\n";
+			if(loadPro == 100) {
+//				_model.log.visible = false;
+				_model.resourceLoader.contentLoaderInfo.removeEventListener(ProgressEvent.PROGRESS,progressHandle);
+			}
 		}
 		
 		private function hideLogo(event : TimerEvent) : void
