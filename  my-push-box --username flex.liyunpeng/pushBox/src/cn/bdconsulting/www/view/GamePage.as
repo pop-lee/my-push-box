@@ -94,7 +94,6 @@ package cn.bdconsulting.www.view
 			_backMainBtn2.x = 15;
 			_backMainBtn2.y = 300;
 			_backMainBtn2.backgroundAlpha = 0;
-//			_backMainBtn2.label = "";
 			_backMainBtn2.addEventListener(MouseEvent.CLICK,toLevelListPage);
 			var _restartBtn : BdcButton = new BdcButton();
 			_restartBtn.width = 90;
@@ -200,7 +199,7 @@ package cn.bdconsulting.www.view
 		
 		private function directionHandle(event : MouseEvent) : void
 		{
-			BdcApplication.application.dispatchEvent(new DirectionBtnEvent(event.currentTarget.direction));
+			_map.role.directionHandle(event.currentTarget.direction);
 		}
 		
 		private function selectLevelHandle(event : PlayGameEvent) : void
@@ -214,7 +213,7 @@ package cn.bdconsulting.www.view
 		private function restartPlay(event : MouseEvent) : void
 		{
 			this.selectedIndex = 1;
-			_map.lv = _model.currentLv;
+			_map.restart();
 //			_role.getPosition();
 		}
 		
@@ -227,6 +226,7 @@ package cn.bdconsulting.www.view
 		
 		private function toLevelListPage(event : MouseEvent) : void
 		{
+			_map.clearMap();
 			_levelList.build();
 			this.selectedIndex = 0;
 		}
