@@ -70,9 +70,6 @@ package
 			_model.log.backgroundAlpha = 1;
 			_model.log.backgroundImage = 0xffffff;
 			_model.log.text = "加载资源……  " + 0 + "%" + "\n";
-//			_model.log.addEventListener(MouseEvent.MOUSE_DOWN,function tmp(event : MouseEvent) : void{
-//				_model.log.visible = false;
-//			});
 			addChild(_model.log);
 		}
 		
@@ -128,7 +125,7 @@ package
 		{
 			var loadPro : int = int(event.bytesLoaded/event.bytesTotal*100);
 			if(loadPro > 100) loadPro = 100;
-			if(loadPro < 80) loadPro = 80;
+			if(loadPro < 40) loadPro = 40;
 			_model.log.text = "加载资源……  " + loadPro + "%" + "\n";
 			if(loadPro == 100) {
 //				_model.log.visible = false;

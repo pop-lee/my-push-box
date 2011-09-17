@@ -6,14 +6,14 @@ package cn.bdconsulting.www.event
 	{
 		public static const DIRECTION_EVENT:String = "directionEvent";
 		
-		public static const LEFT:String = "Left";
-		public static const RIGHT : String = "Right";
-		public static const TOP : String = "Top";
-		public static const BOTTOM:String = "Bottom";
+		public static const LEFT:uint = 37;
+		public static const TOP : uint = 38;
+		public static const RIGHT : uint = 39;
+		public static const BOTTOM:uint = 40;
 		
-		public var direction : String ;
+		public var direction : uint ;
 		
-		public function DirectionBtnEvent(_direction : String)
+		public function DirectionBtnEvent(_direction : uint)
 		{
 			direction = _direction;
 			super(DIRECTION_EVENT);

@@ -4,11 +4,16 @@
 	import cn.bdconsulting.www.config.MapData;
 	import cn.bdconsulting.www.event.SuccessEvent;
 	import cn.bdconsulting.www.model.ModelLocator;
+	import cn.bdconsulting.www.object.Box;
+	import cn.bdconsulting.www.object.Destination;
+	import cn.bdconsulting.www.object.Road;
 	import cn.bdconsulting.www.object.Role;
-	import cn.bdconsulting.www.object.Tile;
+	import cn.bdconsulting.www.object.Roles;
+	import cn.bdconsulting.www.object.Wall;
 	
 	import flash.display.DisplayObject;
 	import flash.display.Loader;
+	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.TimerEvent;
@@ -23,15 +28,21 @@
 	 */
 	public class Map extends BdcContainer
 	{
+		public var mapData:Array = [];//map数据
+		public var mapTileType:Array = [];
+		public var rolesData:Array = [];
+		
 		private var _model : ModelLocator = ModelLocator.getInstance();
 		
 		private var _lv:uint;//关卡
-		private var _mapData:Array = [];//map数据
 		
 		private var _step : int = 0;
 		private var _time : int = 0;
 		
-		private var _role : Role;
+		private var mapLayer : BdcContainer = new BdcContainer();
+		private var rolesLayer : BdcContainer = new BdcContainer();
+		
+		public var role : Role;
 		
 		private var _timer : Timer = new Timer(1000);
 		
@@ -40,83 +51,113 @@
 			super();
 			_lv = lv;
 			_timer.addEventListener(TimerEvent.TIMER,timerHandle);
-			_role = new Role(this);
-			this.addChild(_role);
-//			initMapData();
+			mapLayer.percentWidth = 100;
+			mapLayer.percentHeight = 100;
+			mapLayer.backgroundAlpha = 0;
+			rolesLayer.percentWidth = 100;
+			rolesLayer.percentHeight = 100;
+			rolesLayer.backgroundAlpha = 0;
+			this.addChild(mapLayer);
+			this.addChild(rolesLayer);
 		}
 		private function initMapData() : void {
-			_mapData = [];
+			mapData = [];
+			mapTileType = [];
+			rolesData = [];
 			for (var i :int = 0; i < MapData.MAP[_lv].length; i++) {
-				_mapData[i] = [];
+				mapData[i] = [];
+				mapTileType[i] = [];
 				for (var j:int = 0; j < MapData.MAP[_lv][i].length; j++) {
-					_mapData[i][j] = MapData.MAP[_lv][i][j];
+					mapData[i][j] = MapData.MAP[_lv][i][j];
+					mapTileType[i][j] = mapData[i][j];
 				}
 			}
-//			drawMap();
-		}
-		private function drawMap() : void {
-			var tile:Tile;
-			for (var i:int = 0; i < _mapData.length; i++) {
-				for (var j:int = 0; j < _mapData[i].length; j++) {
-					if(_mapData[i][j]!=0){
-						tile = new Tile();
-						tile.x = j * Config.TILE_SIZE;
-						tile.y = i * Config.TILE_SIZE;
-//						var loader : Loader = new Loader();
-//						if(_mapData[i][j]!=0)
-//							loader.load(new URLRequest("assets/" + Config.IMG_ARR[_mapData[i][j]-1]));
-//						tile.addChild(loader);
-						tile.gotoAndStop(_mapData[i][j]);
-						addChildAt(tile,0);
-//						_childArr.push(tile);
-					}
-				}
-			}
-		}
-		private function repaintMap():void {
-			clearMap();
 			drawMap();
 		}
-		private var i : int = 0;
-		private function clearMap():void {
-			while(numChildren - 1 > 0) {
-				removeChildAt(0);
+		private function drawMap() : void {
+			for (var i:int = 0; i < mapData.length; i++) {
+				rolesData[i] = [];
+				for (var j:int = 0; j < mapData[i].length; j++) {
+					var mapMC : MovieClip = null;
+					var roleMC : Roles = null;
+					switch(mapData[i][j]) {
+						case MapData.WALL:mapMC = new Wall();break;
+						case MapData.ROAD:mapMC = new Road();break;
+						case MapData.TARGET:mapMC = new Destination();break;
+						
+						case MapData.BOX:{
+							mapMC = new Road();
+							roleMC = new Box();
+							mapTileType[i][j] = MapData.ROAD;
+							break;
+						}
+						case MapData.SPECIAL:{
+							mapMC = new Destination();
+							roleMC = new Box();
+							(roleMC as Box).toTarget();
+							mapTileType[i][j] = MapData.TARGET;
+							break;
+						}
+						case MapData.ROLE:{
+							mapMC = new Road();
+							roleMC = role = new Role(this);
+							(roleMC as Role).indexX = j;
+							(roleMC as Role).indexY = i;
+							mapTileType[i][j] = MapData.ROAD;
+							break;
+						}
+					}
+					if(mapMC) {
+						mapMC.x = j * Config.TILE_SIZE;
+						mapMC.y = i * Config.TILE_SIZE;
+						mapLayer.addChild(mapMC);
+					}
+					if(roleMC) {
+						roleMC.x = j * Config.TILE_SIZE;
+						roleMC.y = i * Config.TILE_SIZE;
+						roleMC.oriIndexX = j;
+						roleMC.oriIndexY = i;
+						rolesLayer.addChild(roleMC);
+						rolesData[i][j] = roleMC;
+					}
+					
+				}
 			}
+		}
+		public function restart():void {
+			clearMap();
+			initMapData();
+		}
+		
+		public function clearMap():void {
+			while(mapLayer.numChildren> 0) {
+				mapLayer.removeChildAt(0);
+			}
+			while(rolesLayer.numChildren> 0) {
+				rolesLayer.removeChildAt(0);
+			}
+			mapData = [];//map数据
+			mapTileType = [];
+			rolesData = [];
 			System.gc();
 		}
 		public function checkSuccess():void {
 			if(isSuccess()){
 				trace("Success");
 				_timer.stop();
-				_role.removeEvent();
+				clearMap();
 				this.dispatchEvent(new SuccessEvent(SuccessEvent.SUCCESS_EVENT));
 			}
 		}
 		private function isSuccess():Boolean {
 			var success:Boolean = true;
-			for (var i:int = 0; i < MapData.MAP[_model.currentLv].length; i++) {
-				for (var j:int = 0; j < MapData.MAP[_model.currentLv][i].length; j++) {
+			for (var i:int = 0; i < mapData.length; i++) {
+				for (var j:int = 0; j < mapData[i].length; j++) {
 					//4是目标点
-					if (MapData.MAP[_model.currentLv][i][j] == MapData.TARGET || MapData.MAP[_model.currentLv][i][j] == MapData.SPECIAL) {
-						if ((_mapData[i][j] == MapData.BOX || _mapData[i][j] == MapData.SPECIAL)) {
-							trace(i,j,_mapData[i][j]);
-						}
-						success = success && (_mapData[i][j]==MapData.BOX || _mapData[i][j]==MapData.SPECIAL);
-					}
+					if(mapData[i][j] == MapData.BOX&&mapTileType[i][j] != MapData.TARGET) return false;
 				}
 			}
 			return success;
-		}
-//		private function nextLevel() : void {
-//			changeLv(++Sokoban._lv);
-//		}
-		
-		public function setMapData(py:int, px:int, type:int):void {
-			_mapData[py][px] = type;
-			repaintMap();
-		}
-		public function getMapData():Array {
-			return _mapData;
 		}
 		
 		private function timerHandle(event : TimerEvent) : void
@@ -131,13 +172,11 @@
 			this.x = (this.parent.width - MapData.MAP[_lv][0].length*Config.TILE_SIZE)/2;
 			this.y = (this.parent.height - MapData.MAP[_lv].length*Config.TILE_SIZE)/2;
 			initMapData();
-			repaintMap();
+//			repaintMap();
 			_step = 0;
 			_time = 0;
 			_timer.stop();
 			_timer.start();
-			_role.getPosition();
-			_role.addEvent();
 		}
 		
 		public function get lv() : uint

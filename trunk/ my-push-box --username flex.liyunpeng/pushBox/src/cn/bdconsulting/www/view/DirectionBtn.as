@@ -4,13 +4,14 @@ package cn.bdconsulting.www.view
 	import cn.bdconsulting.www.event.UnLightBtnEvent;
 	import cn.bdconsulting.www.model.ModelLocator;
 	
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
 	
 	public class DirectionBtn extends BdcSprite
 	{
-		public var direction : String;
+		public var direction : uint;
 		
 		private var _timer : Timer = new Timer(50);
 
@@ -34,7 +35,7 @@ package cn.bdconsulting.www.view
 		{
 			BdcApplication.application.addEventListener(LightBtnEvent.LIGHT_BTN_EVENT,tip);
 			BdcApplication.application.addEventListener(UnLightBtnEvent.UNLIGHT_BTN_EVENT,unLightHandle);
-			_timer.addEventListener(TimerEvent.TIMER,light);
+//			_timer.addEventListener(TimerEvent.TIMER,light);
 			this.addEventListener(MouseEvent.MOUSE_DOWN,mouseDownHandle);
 			this.addEventListener(MouseEvent.MOUSE_UP,mouseUpHandle);
 			
@@ -57,19 +58,20 @@ package cn.bdconsulting.www.view
 			this.alpha = 1;
 			_lightCount = 0;
 			_isHideEffect = true;
-			_timer.start();
+//			_timer.start();
+			this.addEventListener(Event.ENTER_FRAME,light);
 			this.graphics.clear();
 			this.graphics.beginFill(0xffa800,1);
 			this.graphics.drawCircle(this.width/2,this.height/2,this.width/2);
 			this.graphics.endFill();
 		}
 		
-		private function light(event : TimerEvent) : void
+		private function light(event : Event) : void
 		{
 			if(_isHideEffect) {
-				this.alpha -= 0.2;
+				this.alpha -= 0.1;
 			} else {
-				this.alpha += 0.2;
+				this.alpha += 0.1;
 			}
 			if(this.alpha >= 1) {
 				_isHideEffect = true;
@@ -78,14 +80,16 @@ package cn.bdconsulting.www.view
 				_lightCount ++;
 			}
 			if(_lightCount == 2) {
-				_timer.stop();
+//				_timer.stop();
+				unLightHandle()
 				_lightCount = 0;
 			}
 		}
 		
-		private function unLightHandle(event : UnLightBtnEvent) : void
+		private function unLightHandle(event : UnLightBtnEvent = null) : void
 		{
-			_timer.stop();
+			if(this.hasEventListener(Event.ENTER_FRAME)) this.removeEventListener(Event.ENTER_FRAME,light);
+//			_timer.stop();
 			this.alpha = 0.2;
 		}
 		
